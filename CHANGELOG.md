@@ -1,5 +1,9 @@
 Changelog
 =========
+## 2.0.4
+
+* Fixed defunct process on GlusterFS plugin.
+* Added S3Fs plugin.
 
 ## 1.3.1
 

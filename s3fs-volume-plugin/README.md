@@ -21,7 +21,7 @@ There are three operating modes listed in order of preference.  Each are mutuall
 This is the *recommended* approach for production systems as it will prevent stacks from specifying any random server.  It also prevents the stack configuration file from containing environment specific key/secrets and instead defers that knowledge to the plugin only which is set on the node level.  This relies on `AWSACCESSKEYID/AWSSECRETACCESSKEY` being configured and will use the name as the volume mount set by [`docker plugin set`](https://docs.docker.com/engine/reference/commandline/plugin_set/).  This can be done in an automated fashion as:
 
     docker plugin install --alias PLUGINALIAS \
-      trajano/s3fs-volume-plugin \
+      mochoa/s3fs-volume-plugin \
       --grant-all-permissions --disable
     docker plugin set PLUGINALIAS AWSACCESSKEYID=key
     docker plugin set PLUGINALIAS AWSSECRETACCESSKEY=secret
@@ -70,24 +70,24 @@ The value of `name` will not be used for mounting; the value of `driver_opts.s3f
 
 ## Testing outside the swarm
 
-This is an example of mounting and testing a store outside the swarm.  It is assuming the server is called `store1` and the volume name is `trajano`.
+This is an example of mounting and testing a store outside the swarm.  It is assuming the server is called `store1` and the volume name is `mybucket`.
 
-    docker plugin install trajano/s3fs-volume-plugin --grant-all-permissions --disable
+    docker plugin install mochoa/s3fs-volume-plugin --grant-all-permissions --disable
     docker plugin set AWSACCESSKEYID=key
     docker plugin set AWSSECRETACCESSKEY=secret
     docker plugin set DEFAULT_S3FSOPTS="nomultipart,use_path_request_style"
-    docker plugin enable trajano/s3fs-volume-plugin
-    docker volume create -d trajano/s3fs-volume-plugin mybucket
-    docker run -it -v mybucket:/mnt alpine
+    docker plugin enable mochoa/s3fs-volume-plugin
+    docker volume create -d mochoa/s3fs-volume-plugin mybucket
+    docker run --rm -it -v mybucket:/mnt alpine
 
 ## Testing with Oracle Cloud Object storage
 
 Sample usage Oracle Object Storage in S3 compatibilty mode, replace tenant_id and region_id with a proper value:
 
-    docker plugin install trajano/s3fs-volume-plugin --grant-all-permissions --disable
+    docker plugin install mochoa/s3fs-volume-plugin --grant-all-permissions --disable
     docker plugin set AWSACCESSKEYID=key
     docker plugin set AWSSECRETACCESSKEY=secret
     docker plugin set DEFAULT_S3FSOPTS="nomultipart,use_path_request_style,url=https://[tenant_id].compat.objectstorage.[region-id].oraclecloud.com/"
-    docker plugin enable trajano/s3fs-volume-plugin
-    docker volume create -d trajano/s3fs-volume-plugin mybucket
+    docker plugin enable mochoa/s3fs-volume-plugin
+    docker volume create -d mochoa/s3fs-volume-plugin mybucket
     docker run -it -v mybucket:/mnt alpine

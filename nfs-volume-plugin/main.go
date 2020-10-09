@@ -9,7 +9,7 @@ import (
 
 	"github.com/docker/go-connections/sockets"
 	"github.com/docker/go-plugins-helpers/volume"
-	"github.com/trajano/docker-volume-plugins/mounted-volume"
+	mountedvolume "github.com/marcelo-ochoa/docker-volume-plugins/mounted-volume"
 )
 
 type nfsDriver struct {

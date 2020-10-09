@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trajano/docker-volume-plugins.git"
+    "url": "git+https://github.com/marcelo-ochoa/docker-volume-plugins.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/trajano/docker-volume-plugins/issues"
+    "url": "https://github.com/marcelo-ochoa/docker-volume-plugins/issues"
   },
-  "homepage": "https://github.com/trajano/docker-volume-plugins#readme"
+  "homepage": "https://github.com/marcelo-ochoa/docker-volume-plugins#readme"
 }

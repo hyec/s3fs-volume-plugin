@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/trajano/docker-volume-plugins/mounted-volume"
+	mountedvolume "github.com/marcelo-ochoa/docker-volume-plugins/mounted-volume"
 )
 
 func TestCalculateCredentialsFile(t *testing.T) {

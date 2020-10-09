@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/docker/go-plugins-helpers/volume"
-	"github.com/trajano/docker-volume-plugins/mounted-volume"
+	mountedvolume "github.com/marcelo-ochoa/docker-volume-plugins/mounted-volume"
 )
 
 type s3fsDriver struct {

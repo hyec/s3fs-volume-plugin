@@ -21,7 +21,7 @@ There are three operating modes listed in order of preference.  Each are mutuall
 This is the *recommended* approach for production systems as it will prevent stacks from specifying any random server.  It also prevents the stack configuration file from containing environment specific servers and instead defers that knowledge to the plugin only which is set on the node level.  This relies on `SERVERS` being configured and will use the name as the volume mount set by [`docker plugin set`](https://docs.docker.com/engine/reference/commandline/plugin_set/).  This can be done in an automated fashion as:
 
     docker plugin install --alias PLUGINALIAS \
-      trajano/glusterfs-volume-plugin \
+      mochoa/glusterfs-volume-plugin \
       --grant-all-permissions --disable
     docker plugin set PLUGINALIAS SERVERS=store1,store2
     docker plugin enable PLUGINALIAS
@@ -70,9 +70,9 @@ The value of `name` will not be used for mounting; the value of `driver_opts.glu
 
 ## Testing outside the swarm
 
-This is an example of mounting and testing a store outside the swarm.  It is assuming the server is called `store1` and the volume name is `trajano`.
+This is an example of mounting and testing a store outside the swarm.  It is assuming the server is called `store1` and the volume name is `myvol`.
 
-    docker plugin install trajano/glusterfs-volume-plugin --grant-all-permissions
-    docker plugin enable trajano/glusterfs-volume-plugin
-    docker volume create -d trajano/glusterfs-volume-plugin --opt servers=store1 trajano
-    docker run -it -v trajano:/mnt alpine
+    docker plugin install mochoa/glusterfs-volume-plugin --grant-all-permissions
+    docker plugin enable mochoa/glusterfs-volume-plugin
+    docker volume create -d mochoa/glusterfs-volume-plugin --opt servers=store1 myvol
+    docker run -it -v myvol:/mnt alpine

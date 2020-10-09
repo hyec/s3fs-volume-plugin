@@ -1,7 +1,7 @@
 FROM oraclelinux:7-slim
 RUN yum install -q -y git cifs-utils tar && \
-    curl --silent -L https://dl.google.com/go/go1.11.5.linux-amd64.tar.gz | tar -C /usr/local -zxf -
-RUN /usr/local/go/bin/go get github.com/trajano/docker-volume-plugins/cifs-volume-plugin && \
+    curl --silent -L https://dl.google.com/go/go1.15.2.linux-amd64.tar.gz | tar -C /usr/local -zxf -
+RUN /usr/local/go/bin/go get github.com/marcelo-ochoa/docker-volume-plugins/cifs-volume-plugin && \
     mv $HOME/go/bin/cifs-volume-plugin / && \
     rm -rf $HOME/go /usr/local/go && \
     yumdb set reason dep git tar && \

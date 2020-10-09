@@ -30,7 +30,7 @@ The plugin supports the following settings:
 When installinng, it is *recommended* that a PLUGINALIAS is specified so that you would know what it is for and can easily control multiple copies of it.  This can be done in an automated fashion as:
 
     docker plugin install --alias PLUGINALIAS \
-      trajano/centos-mounted-volume-plugin \
+      mochoa/centos-mounted-volume-plugin \
       --grant-all-permissions --disable
     docker plugin set PLUGINALIAS PACKAGES=nfs-utils
     docker plugin set PLUGINALIAS MOUNT_TYPE=nfs
@@ -55,13 +55,13 @@ Which yields the following command
 ### NFS mount
 
     docker plugin install \
-      trajano/centos-mounted-volume-plugin \
+      mochoa/centos-mounted-volume-plugin \
       --grant-all-permissions --disable
-    docker plugin set trajano/centos-mounted-volume-plugin \
+    docker plugin set mochoa/centos-mounted-volume-plugin \
       PACKAGES=nfs-utils \
       POSTINSTALL="systemctl start rpcbind" \
       MOUNT_TYPE=nfs \
       MOUNT_OPTIONS=hard,proto=tcp,nfsvers=3,intr,nolock
-    docker plugin enable trajano/centos-mounted-volume-plugin
-    docker volume create -d trajano/centos-mounted-volume-plugin --opt device=192.168.1.1:/mnt/routerdrive/nfs nfsmountvolume
+    docker plugin enable mochoa/centos-mounted-volume-plugin
+    docker volume create -d mochoa/centos-mounted-volume-plugin --opt device=192.168.1.1:/mnt/routerdrive/nfs nfsmountvolume
     docker run -it -v nfsmountvolume:/mnt alpine

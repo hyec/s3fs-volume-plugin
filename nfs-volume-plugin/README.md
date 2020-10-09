@@ -21,7 +21,7 @@ The plugin supports the following settings:
 When installinng, it is *recommended* that a PLUGINALIAS is specified so that you would know what it is for and can easily control multiple copies of it.  This can be done in an automated fashion as:
 
     docker plugin install --alias PLUGINALIAS \
-      trajano/nfs-volume-plugin \
+      mochoa/nfs-volume-plugin \
       --grant-all-permissions --disable
     docker plugin set PLUGINALIAS DEFAULT_NFSOPTS=hard,proto=tcp,nfsvers=4,intr
     docker plugin enable PLUGINALIAS
@@ -43,7 +43,7 @@ Which yields the following command
 
 This is an example of mounting and testing a store outside the swarm.  It is assuming the share is called `192.168.1.1:/mnt/routerdrive/nfs`.
 
-    docker plugin install trajano/nfs-volume-plugin --grant-all-permissions
-    docker plugin enable trajano/nfs-volume-plugin
-    docker volume create -d trajano/nfs-volume-plugin --opt device=192.168.1.1:/mnt/routerdrive/nfs --opt nfsopts=hard,proto=tcp,nfsvers=3,intr,nolock nfsmountvolume
+    docker plugin install mochoa/nfs-volume-plugin --grant-all-permissions
+    docker plugin enable mochoa/nfs-volume-plugin
+    docker volume create -d mochoa/nfs-volume-plugin --opt device=192.168.1.1:/mnt/routerdrive/nfs --opt nfsopts=hard,proto=tcp,nfsvers=3,intr,nolock nfsmountvolume
     docker run -it -v nfsmountvolume:/mnt alpine

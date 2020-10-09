@@ -1,6 +1,6 @@
 {
     "description": "S3FS plugin for Docker",
-    "documentation": "https://github.com/trajano/docker-volume-plugins/",
+    "documentation": "https://github.com/marcelo-ochoa/docker-volume-plugins/",
     "entrypoint": [
         "/tini",
         "--",
@@ -26,7 +26,7 @@
             "settable": [
                 "value"
             ],
-            "value": ""
+            "value": "nomultipart,use_path_request_style"
         }
     ],
     "network": {
