@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/docker/go-plugins-helpers/volume"
@@ -54,6 +55,8 @@ func (p *gfsDriver) MountOptions(req *volume.CreateRequest) []string {
 		args = strings.Split(glusteropts, " ")
 	}
 
+	args = append(args, "--logger=syslog")
+
 	return args
 }
 
@@ -83,12 +86,26 @@ func buildDriver() *gfsDriver {
 		Driver:  *mountedvolume.NewDriver("glusterfs", true, "gfs", "local"),
 		servers: servers,
 	}
+
+	if os.Getenv("SECURE_MANAGEMENT") != "" {
+		file, err := os.Create("/var/lib/glusterd/secure-access")
+		if err != nil {
+			log.Fatal("Could not create secure-access file: "+err.Error())
+		}
+		defer file.Close()
+	}
+
 	d.Init(d)
 	return d
 }
 
+func spawnSyslog() {
+	cmd := exec.Command("rsyslogd", "-n")
+	cmd.Start()
+}
+
 func main() {
-	log.SetFlags(0)
+	spawnSyslog()
 	d := buildDriver()
 	defer d.Close()
 	d.ServeUnix()
