@@ -6,7 +6,8 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 RUN yum install -q -y oracle-epel-release-el7 && \
     yum install -q -y fuse s3fs-fuse attr && \
-    rm -rf /var/cache/yum /etc/mtab
+    yum clean all && \
+    rm -rf /var/cache/yum /var/log/anaconda /var/cache/yum /etc/mtab
 
 FROM base as dev
 
