@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"strings"
 	"sync"
 	"syscall"
 
@@ -237,6 +238,12 @@ func (p *Driver) Mount(req *volume.MountRequest) (*volume.MountResponse, error) 
 	if out, err := cmd.CombinedOutput(); err != nil {
 		fmt.Printf("Command output: %s\n", out)
 		return &volume.MountResponse{}, fmt.Errorf("error mounting %s: %s", req.Name, err.Error())
+	} else {
+		cmd := exec.Command("df", "--output=fstype", mountPoint)
+		if out, err := cmd.CombinedOutput(); err != nil || strings.Index(string(out), p.mountExecutable) < 0 {
+			fmt.Printf("df --output=fstype: %s\n", out)
+			return &volume.MountResponse{}, fmt.Errorf("error mounting %s:\n%s\nfstype should be %s", req.Name, out, p.mountExecutable)
+		}
 	}
 	volumeInfo.MountPoint = mountPoint
 	volumeInfo.Status["mounted"] = true
