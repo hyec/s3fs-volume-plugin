@@ -44,9 +44,10 @@ func (p *s3fsDriver) PostMount(req *volume.MountRequest) {
 // AppendBucketOptionsByVolumeName appends the command line arguments into the current argument list given the volume name
 func AppendBucketOptionsByVolumeName(args []string, volumeName string) []string {
 	parts := strings.SplitN(volumeName, "/", 2)
-	ret := append(args, "bucket="+parts[0])
 	if len(parts) == 2 {
-		ret = append(ret, "servicepath=/"+parts[1])
+		ret := append(args, "bucket="+parts[0]+":/"+parts[1])
+	} else {
+		ret := append(args, "bucket="+parts[0])
 	}
 	return ret
 }
