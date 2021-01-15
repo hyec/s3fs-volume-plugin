@@ -45,11 +45,10 @@ func (p *s3fsDriver) PostMount(req *volume.MountRequest) {
 func AppendBucketOptionsByVolumeName(args []string, volumeName string) []string {
 	parts := strings.SplitN(volumeName, "/", 2)
 	if len(parts) == 2 {
-		ret := append(args, "bucket="+parts[0]+":/"+parts[1])
+		return append(args, "bucket="+parts[0]+":/"+parts[1])
 	} else {
-		ret := append(args, "bucket="+parts[0])
+		return append(args, "bucket="+parts[0])
 	}
-	return ret
 }
 
 func buildDriver() *s3fsDriver {
