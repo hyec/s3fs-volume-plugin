@@ -46,9 +46,9 @@ func AppendBucketOptionsByVolumeName(args []string, volumeName string) []string 
 	parts := strings.SplitN(volumeName, "/", 2)
 	if len(parts) == 2 {
 		return append(args, "bucket="+parts[0]+":/"+parts[1])
-	} else {
-		return append(args, "bucket="+parts[0])
 	}
+	return append(args, "bucket="+parts[0])
+
 }
 
 func buildDriver() *s3fsDriver {

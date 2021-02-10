@@ -19,7 +19,7 @@ func TestVolumeCalculation(t *testing.T) {
 func TestVolumeCalculationOneLevel(t *testing.T) {
 
 	var calculated = AppendBucketOptionsByVolumeName([]string{"mount"}, "mybucket/levelone")
-	var expected = []string{"mount", "bucket=mybucket", "servicepath=/levelone"}
+	var expected = []string{"mount", "bucket=mybucket:/levelone"}
 	if !reflect.DeepEqual(calculated, expected) {
 		fmt.Println(fmt.Errorf("%v didn't match expected", calculated))
 		t.Fail()
@@ -29,7 +29,7 @@ func TestVolumeCalculationOneLevel(t *testing.T) {
 func TestVolumeCalculationTwoLevels(t *testing.T) {
 
 	var calculated = AppendBucketOptionsByVolumeName([]string{"mount"}, "mybucket/levelone/level2")
-	var expected = []string{"mount", "bucket=mybucket", "servicepath=/levelone/level2"}
+	var expected = []string{"mount", "bucket=mybucket:/levelone/level2"}
 	if !reflect.DeepEqual(calculated, expected) {
 		fmt.Println(fmt.Errorf("%v didn't match expected", calculated))
 		t.Fail()
