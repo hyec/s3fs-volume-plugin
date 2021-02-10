@@ -9,21 +9,23 @@
 			"VARIANT": "1",
 			// Options
 			"INSTALL_NODE": "false",
-			"NODE_VERSION": "lts/*"
+			"NODE_VERSION": "lts/*",
+			"DOCKER_GID": "999"
 		}
 	},
-	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined","-v", "/var/run/docker.sock:/var/run/docker.sock:rw" ],
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
 		"terminal.integrated.shell.linux": "/bin/bash",
-		"go.useGoProxyToCheckForToolUpdates": false,
+		"go.toolsManagement.checkForUpdates": "off",
 		"go.gopath": "/go",
 		"go.useLanguageServer": true
 	},
 	
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
+		"ms-azuretools.vscode-docker",
 		"golang.Go"
 	],
 
@@ -34,8 +36,8 @@
 	// "postCreateCommand": "go version",
 	
 	"workspaceMount": "source=${localWorkspaceFolder},target=/go/src/github.com/marcelo-ochoa/docker-volume-plugins,type=bind,consistency=delegated",
-	//"workspaceFolder": "/go/src/github.com/marcelo-ochoa/docker-volume-plugins",
+	"workspaceFolder": "/go/src/github.com/marcelo-ochoa/docker-volume-plugins",
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	//"remoteUser": "vscode"
+	"remoteUser": "vscode"
 }

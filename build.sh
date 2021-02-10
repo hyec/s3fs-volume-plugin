@@ -24,7 +24,7 @@ build() {
         docker plugin create mochoa/$1 build
     else
         docker plugin create mochoa/$1:$TAG build
-        #docker plugin push mochoa/$1:$TAG
+        docker plugin push mochoa/$1:$TAG
     fi
 }
 build glusterfs-volume-plugin
