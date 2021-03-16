@@ -1,7 +1,9 @@
 {
-    "description": "CIFS plugin for Docker",
+    "description": "CIFS plugin or Docker v2.0.7",
     "documentation": "https://github.com/marcelo-ochoa/docker-volume-plugins/",
     "entrypoint": [
+        "/tini",
+        "--",
         "/cifs-volume-plugin"
     ],
     "env": [

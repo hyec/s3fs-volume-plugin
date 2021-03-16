@@ -8,27 +8,35 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-TAG=$1
+export TAG=${1:-latest}
+export ARCH=${2:-"$(uname -m)"}
+
 build() {
-    docker plugin rm -f mochoa/$1 || true
+    if [ $ARCH == "armv7l" ]
+    then
+        BPLATFORM="linux/arm/v7"
+        TPLATFORM="armhf"
+        GPLATFORM="armv6l"
+    else
+        BPLATFORM="linux/amd64"
+        TPLATFORM="amd64"
+        GPLATFORM="amd64"
+    fi
+    docker plugin rm -f mochoa/$1:$TAG || true
     docker rmi -f rootfsimage || true
-    docker build -t rootfsimage -f $1/Dockerfile .
+    docker buildx build --load --platform ${BPLATFORM} \
+        --build-arg TPLATFORM=${TPLATFORM} \
+        --build-arg GPLATFORM=${GPLATFORM} \
+        -t rootfsimage -f $1/Dockerfile .
     id=$(docker create rootfsimage true) # id was cd851ce43a403 when the image was created
     rm -rf build/rootfs
-    mkdir -p build/rootfs
+    mkdir -p build/rootfs/var/lib/docker-volumes
     docker export "$id" | tar -x -C build/rootfs
     docker rm -vf "$id"
     cp $1/config.json build
-    if [ -z "$TAG" ]
-    then
-        docker plugin create mochoa/$1 build
-    else
-        docker plugin create mochoa/$1:$TAG build
-        docker plugin push mochoa/$1:$TAG
-    fi
+    docker plugin create mochoa/$1-$ARCH:$TAG build
+    #docker plugin push mochoa/$1-$ARCH:$TAG
 }
 build glusterfs-volume-plugin
 build s3fs-volume-plugin
 build cifs-volume-plugin
-build nfs-volume-plugin
-build centos-mounted-volume-plugin
