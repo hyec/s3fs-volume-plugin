@@ -35,7 +35,7 @@ build() {
     docker rm -vf "$id"
     cp $1/config.json build
     docker plugin create mochoa/$1-$ARCH:$TAG build
-    #docker plugin push mochoa/$1-$ARCH:$TAG
+    docker plugin push mochoa/$1-$ARCH:$TAG
 }
 build glusterfs-volume-plugin
 build s3fs-volume-plugin

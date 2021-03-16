@@ -8,6 +8,7 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${TPL
 RUN chmod +x /tini
 
 RUN apt update && \
+    apt dist-upgrade -y && \
     apt install -y cifs-utils curl && \
     apt clean && rm -rf /var/lib/apt/lists/*
 

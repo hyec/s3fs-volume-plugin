@@ -8,6 +8,7 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${TPL
 RUN chmod +x /tini
 
 RUN apt update && \
+    apt dist-upgrade -y && \
     apt install -y glusterfs-client curl rsyslog && \
     apt clean && rm -rf /var/lib/apt/lists/* && \
     rm -rf "/tmp/*" "/root/.cache" /var/log/lastlog && \
