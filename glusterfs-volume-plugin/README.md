@@ -27,6 +27,7 @@ This is the *recommended* approach for production systems as it will prevent sta
     docker plugin enable PLUGINALIAS
 
 If there is a need to have a different set of servers, a separate plugin alias should be created with a different set of servers.
+* Note that store1 and store2 servers must be defined at /etc/hosts of docker run time.
 
 Example in docker-compose.yml:
 

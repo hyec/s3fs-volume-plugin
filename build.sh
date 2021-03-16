@@ -17,10 +17,16 @@ build() {
         BPLATFORM="linux/arm/v7"
         TPLATFORM="armhf"
         GPLATFORM="armv6l"
-    else
-        BPLATFORM="linux/amd64"
-        TPLATFORM="amd64"
-        GPLATFORM="amd64"
+    else if [ $ARCH == "aarch64" ] 
+        then
+            BPLATFORM="linux/arm64"
+            TPLATFORM="arm64"
+            GPLATFORM="arm64"
+        else
+            BPLATFORM="linux/amd64"
+            TPLATFORM="amd64"
+            GPLATFORM="amd64"
+        fi
     fi
     docker plugin rm -f mochoa/$1:$TAG || true
     docker rmi -f rootfsimage || true
@@ -36,6 +42,11 @@ build() {
     cp $1/config.json build
     docker plugin create mochoa/$1-$ARCH:$TAG build
     docker plugin push mochoa/$1-$ARCH:$TAG
+    if [ $ARCH == "x86_64" ]
+    then
+        docker plugin create mochoa/$1:$TAG build
+        docker plugin push mochoa/$1:$TAG
+    fi
 }
 build glusterfs-volume-plugin
 build s3fs-volume-plugin
