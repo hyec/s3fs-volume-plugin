@@ -1,8 +1,8 @@
 {
-    "description": "S3FS plugin for Docker v2.0.7",
+    "description": "S3FS plugin for Docker v2.0.8",
     "documentation": "https://github.com/marcelo-ochoa/docker-volume-plugins/",
     "entrypoint": [
-        "/tini",
+        "/usr/bin/tini",
         "--",
         "/s3fs-volume-plugin"
     ],
