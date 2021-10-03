@@ -91,9 +91,9 @@ Sample usage Oracle Object Storage in S3 compatibilty mode, replace tenant_id an
     docker volume create -d mochoa/s3fs-volume-plugin mybucket
     docker run -it -v mybucket:/mnt alpine
 
-## Quick provision an all nodes of Swam cluster
+## Quick provision on all Swarm cluster nodes
 
-This sample sent by [Vincent Sijben](https://github.com/vincentsijben) shows how to quick provision your S3Fs plugin on all Docker swarm nodes using Digital Ocean Spaces, based on samples by Bret Fisher at <https://github.com/BretFisher/dogvscat/blob/master/stack-rexray.yml>
+This sample sent by [Vincent Sijben](https://github.com/vincentsijben) shows how to quick provision your S3Fs plugin on all Docker Swarm nodes using Digital Ocean Spaces, based on samples by Bret Fisher at <https://github.com/BretFisher/dogvscat/blob/master/stack-rexray.yml>
 
     plugin-s3fs:
       image: mavenugo/swarm-exec:17.03.0-ce
