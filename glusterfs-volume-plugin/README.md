@@ -1,9 +1,8 @@
-GlusterFS Volume Plugin
-=======================
+# GlusterFS Volume Plugin
 
 This is a managed Docker volume plugin to allow Docker containers to access GlusterFS volumes.  The GlusterFS client does not need to be installed on the host and everything is managed within the plugin.
 
-### Caveats:
+## Caveats
 
 - Requires Docker 18.03-1 at minimum.
 - This is a managed plugin only, no legacy support.
@@ -27,7 +26,8 @@ This is the *recommended* approach for production systems as it will prevent sta
     docker plugin enable PLUGINALIAS
 
 If there is a need to have a different set of servers, a separate plugin alias should be created with a different set of servers.
-* Note that store1 and store2 servers must be defined at /etc/hosts of docker run time.
+
+- Note that store1 and store2 servers must be defined at /etc/hosts of docker run time.
 
 Example in docker-compose.yml:
 
@@ -90,4 +90,4 @@ To secure management channel, set `SECURE_MANAGEMENT` to non empty value, eg.: `
 Remember that all clients and servers will need to ahve secure management enabled to be able to communicate:
 **(...) will cause glusterd connections made from that machine to use TLS. Note that even clients must do this to communicate with a remote glusterd while mounting, but not thereafter**
 
-More at: https://gluster.readthedocs.io/en/latest/Administrator%20Guide/SSL/#enabling-tls-on-the-management-path
+More at: <https://gluster.readthedocs.io/en/latest/Administrator%20Guide/SSL/#enabling-tls-on-the-management-path>

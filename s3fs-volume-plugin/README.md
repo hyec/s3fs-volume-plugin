@@ -1,9 +1,8 @@
-S3Fs Volume Plugin
-=======================
+# S3Fs Volume Plugin
 
 This is a managed Docker volume plugin to allow Docker containers to access S3Fs volumes.  The S3Fs client does not need to be installed on the host and everything is managed within the plugin.
 
-### Caveats:
+## Caveats
 
 - Requires Docker 18.03-1 at minimum.
 - This is a managed plugin only, no legacy support.
@@ -91,3 +90,23 @@ Sample usage Oracle Object Storage in S3 compatibilty mode, replace tenant_id an
     docker plugin enable mochoa/s3fs-volume-plugin
     docker volume create -d mochoa/s3fs-volume-plugin mybucket
     docker run -it -v mybucket:/mnt alpine
+
+## Quick provision an all nodes of Swam cluster
+
+This sample sent by [Vincent Sijben](https://github.com/vincentsijben) shows how to quick provision your S3Fs plugin on all Docker swarm nodes using Digital Ocean Spaces, based on samples by Bret Fisher at <https://github.com/BretFisher/dogvscat/blob/master/stack-rexray.yml>
+
+    plugin-s3fs:
+      image: mavenugo/swarm-exec:17.03.0-ce
+      secrets:
+        - aws_accesskey_id
+        - aws_secret_accesskey
+      environment:
+        - AWSACCESSKEYID_FILE=/run/secrets/aws_accesskey_id
+        - AWSSECRETACCESSKEY_FILE=/run/secrets/aws_secret_accesskey
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      command: sh -c "docker plugin install --alias s3fs mochoa/s3fs-volume-plugin --grant-all-permissions --disable AWSACCESSKEYID=$$(cat $$AWSACCESSKEYID_FILE) AWSSECRETACCESSKEY=$$(cat $$AWSSECRETACCESSKEY_FILE) DEFAULT_S3FSOPTS='uid=1000,gid=1000,url=https://ams3.digitaloceanspaces.com,use_path_request_style,nomultipart'; docker plugin enable s3fs"
+      deploy:
+        mode: global
+        restart_policy:
+          condition: none
