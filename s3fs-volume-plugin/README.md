@@ -105,7 +105,7 @@ This sample sent by [Vincent Sijben](https://github.com/vincentsijben) shows how
         - AWSSECRETACCESSKEY_FILE=/run/secrets/aws_secret_accesskey
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-      command: sh -c "docker plugin install --alias s3fs mochoa/s3fs-volume-plugin --grant-all-permissions --disable AWSACCESSKEYID=$$(cat $$AWSACCESSKEYID_FILE) AWSSECRETACCESSKEY=$$(cat $$AWSSECRETACCESSKEY_FILE) DEFAULT_S3FSOPTS='uid=1000,gid=1000,url=https://ams3.digitaloceanspaces.com,use_path_request_style,nomultipart'; docker plugin enable s3fs"
+      command: sh -c "docker plugin install --alias s3fs mochoa/s3fs-volume-plugin --grant-all-permissions --disable AWSACCESSKEYID=$$(cat $$AWSACCESSKEYID_FILE) AWSSECRETACCESSKEY=$$(cat $$AWSSECRETACCESSKEY_FILE) DEFAULT_S3FSOPTS='allow_other,uid=1000,gid=1000,url=https://ams3.digitaloceanspaces.com,use_path_request_style,nomultipart'; docker plugin enable s3fs"
       deploy:
         mode: global
         restart_policy:
