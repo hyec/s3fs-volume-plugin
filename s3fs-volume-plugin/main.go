@@ -1,8 +1,8 @@
 package main
 
 import (
-	"log"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/docker/go-plugins-helpers/volume"
@@ -48,7 +48,6 @@ func AppendBucketOptionsByVolumeName(args []string, volumeName string) []string 
 		return append(args, "bucket="+parts[0]+":/"+parts[1])
 	}
 	return append(args, "bucket="+parts[0])
-
 }
 
 func buildDriver() *s3fsDriver {
@@ -61,8 +60,14 @@ func buildDriver() *s3fsDriver {
 	return d
 }
 
+func spawnSyslog() {
+	cmd := exec.Command("rsyslogd", "-n")
+	cmd.Start()
+}
+
 func main() {
-	log.SetFlags(0)
+	spawnSyslog()
+	//log.SetFlags(0)
 	d := buildDriver()
 	defer d.Close()
 	d.ServeUnix()

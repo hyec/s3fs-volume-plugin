@@ -62,34 +62,51 @@ This passes the `driver_opts.s3fsopts` to the `s3fs` command followed by the gen
       sample:
         driver: s3fs
         driver_opts:
-          s3fsopts: "nomultipart,use_path_request_style,bucket=bucket,servicepath=subdir"
-        name: "whatever"
+          s3fsopts: "nomultipart,use_path_request_style"
+        name: "bucket_name/subdir"
 
-The value of `name` will not be used for mounting; the value of `driver_opts.s3fsopts` is expected to have all the volume connection information.
+The value of `name` will be used to extract bucket and subdir information and will be appened to the value of `driver_opts.s3fsopts` connection information.
+For the above example it will be translated to s3fs fuse command option as:
+
+          -o "nomultipart,use_path_request_style,bucket=bucket_name:/subdir"
 
 ## Testing outside the swarm
 
 This is an example of mounting and testing a store outside the swarm.  It is assuming the server is called `store1` and the volume name is `mybucket`.
 
-    docker plugin install mochoa/s3fs-volume-plugin --grant-all-permissions --disable
-    docker plugin set AWSACCESSKEYID=key
-    docker plugin set AWSSECRETACCESSKEY=secret
-    docker plugin set DEFAULT_S3FSOPTS="nomultipart,use_path_request_style"
-    docker plugin enable mochoa/s3fs-volume-plugin
-    docker volume create -d mochoa/s3fs-volume-plugin mybucket
+    docker plugin install mochoa/s3fs-volume-plugin --alias s3fs --grant-all-permissions --disable
+    docker plugin set s3fs AWSACCESSKEYID=key
+    docker plugin set s3fs AWSSECRETACCESSKEY=secret
+    docker plugin set s3fs DEFAULT_S3FSOPTS="nomultipart,use_path_request_style"
+    docker plugin enable s3fs
+    docker volume create -d s3fs mybucket
     docker run --rm -it -v mybucket:/mnt alpine
 
 ## Testing with Oracle Cloud Object storage
 
 Sample usage Oracle Object Storage in S3 compatibilty mode, replace tenant_id and region_id with a proper value:
 
-    docker plugin install mochoa/s3fs-volume-plugin --grant-all-permissions --disable
-    docker plugin set AWSACCESSKEYID=key
-    docker plugin set AWSSECRETACCESSKEY=secret
-    docker plugin set DEFAULT_S3FSOPTS="nomultipart,use_path_request_style,url=https://[tenant_id].compat.objectstorage.[region-id].oraclecloud.com/"
-    docker plugin enable mochoa/s3fs-volume-plugin
-    docker volume create -d mochoa/s3fs-volume-plugin mybucket
+    docker plugin install mochoa/s3fs-volume-plugin --alias s3fs --grant-all-permissions --disable
+    docker plugin set s3fs AWSACCESSKEYID=key
+    docker plugin set s3fs AWSSECRETACCESSKEY=secret
+    docker plugin set s3fs DEFAULT_S3FSOPTS="nomultipart,use_path_request_style,url=https://[tenant_id].compat.objectstorage.[region-id].oraclecloud.com/"
+    docker plugin enable s3fs
+    docker volume create -d s3fs mybucket
     docker run -it -v mybucket:/mnt alpine
+
+## Testing with Linode Object storage
+
+Sample usage Oracle Object Storage in S3 compatibilty mode, replace tenant_id and region_id with a proper value:
+
+    docker plugin install mochoa/s3fs-volume-plugin --alias s3fs --grant-all-permissions --disable
+    docker plugin set s3fs AWSACCESSKEYID=key
+    docker plugin set s3fs AWSSECRETACCESSKEY=secret
+    docker plugin set s3fs DEFAULT_S3FSOPTS="url=https://us-southeast-1.linodeobjects.com/"
+    docker plugin enable s3fs
+    docker volume create -d s3fs mybucket
+    docker run -it -v mybucket:/mnt alpine
+
+Note: Linode Object Storage required s3fs-volume-plugin built on 10/26/2021 due it required updated ca-certificate package from Ubuntu to properly work with LetsEncrypt certs used by Linode cloud.
 
 ## Quick provision on all Swarm cluster nodes
 

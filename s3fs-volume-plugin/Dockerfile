@@ -4,8 +4,12 @@ FROM --platform=${TARGETPLATFORM:-linux/amd64} ubuntu:${UBUNTU_VERSION:-20.04} a
 ENV DEBIAN_FRONTEND="noninteractive"
 
 RUN apt update && \
-    apt install -y s3fs curl tini && \
+    apt install -y s3fs curl rsyslog tini && \
+    mkdir -p /var/lib/rsyslog && \
     apt clean && rm -rf /var/lib/apt/lists/*
+
+COPY s3fs-volume-plugin/rsyslog.conf /etc/rsyslog.conf
+COPY s3fs-volume-plugin/fuse.conf /etc/fuse.conf
 
 ARG GO_VERSION
 FROM --platform=${TARGETPLATFORM:-linux/amd64} golang:${GO_VERSION:-1.15.10}-alpine as dev
